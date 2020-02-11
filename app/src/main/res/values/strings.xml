@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_cities">Search Cities</string>
+    <string name="current_city">Current City</string>
+    <string name="play_service_not_found_error">Install play services from playstore to avail this service.</string>
+    <string name="please_wait">Please Wait..</string>
+    <string name="retry">Retry</string>
+    <string name="no_data_found">No Data found. Please try again later</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="api_city_not_found">City not found</string>
+    <string name="unable_to_get_location_permission">Unable to get the location permission</string>
+    <string name="location_permission_denied">Location permission denied</string>
+    <string name="min_max_temp">%1$.2f \u2103 / %2$.2f \u2103</string>
+    <string name="wind_speed">%1$.2f km/h</string>
+    <string name="enter_city">Enter Cities</string>
+    <string name="enter_cities_name">Please enter cities name separated by comma(,)</string>
+    <string name="enter_three_cities">Please enter minimum three cities</string>
+    <string name="temp">%1$.2f \u2103</string>
+    <string name="weather_url">https://openweathermap.org/img/wn/%1$s@2x.png</string>
+    <string name="max_seven_cities_allowed">Maximum seven cities are allowed</string>
+    <string name="city_not_found">not found, Please enter valid city name</string>
+    <string name="something_went_wrong">Something went wrong.</string>
+    <string name="current_temp_info_message">Enter cities name comma(,) separated to check the temperature</string>
+
+</resources>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="view"
+            type="com.example.weatherapp.currenttemp.view.CurrentTempFragment"/>
+
+        <variable
+            name="viewModel"
+            type="com.example.weatherapp.currenttemp.viewmodel.CurrentTempViewModel"/>
+
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".currenttemp.view.CurrentTempFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:errorEnabled="true"
+        android:layout_marginStart="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_5"
+        app:layout_constraintEnd_toStartOf="@id/ivSearchIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtCity"
+            android:hint="@string/enter_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionSearch"
+            android:inputType="textCapWords"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivSearchIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:padding="@dimen/dp_5"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{view::onClick}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/inputLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_search_black"/>
+
+
+
+    <include
+        android:id="@+id/layoutInfo"
+        layout="@layout/layout_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_10"
+        android:visibility="@{viewModel.viewToBeShown==4?View.VISIBLE:View.GONE}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:infoMessage="@{@string/current_temp_info_message}"/>
+
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="@{viewModel.viewToBeShown==1?View.VISIBLE:View.GONE}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCurrentTemp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="@{viewModel.viewToBeShown==2?View.VISIBLE:View.GONE}"
+        app:data="@{viewModel.temperatureList}"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

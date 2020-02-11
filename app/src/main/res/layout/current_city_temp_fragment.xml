@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="view"
+            type="com.example.weatherapp.currentcitytemp.view.CurrentCityTempFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.example.weatherapp.currentcitytemp.viewmodel.CurrentCityTempViewModel"/>
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/clCurrentCity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDaysForecast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        android:visibility="@{viewModel.viewToBeViewed==2?View.VISIBLE:View.GONE}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:data="@{viewModel.weatherForecastList}"/>
+
+
+    <include
+        android:id="@+id/progressLayout"
+        layout="@layout/layout_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="@{viewModel.viewToBeViewed==1?View.VISIBLE:View.GONE}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <include
+        android:id="@+id/errorLayout"
+        layout="@layout/layout_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="@{viewModel.viewToBeViewed==3?View.VISIBLE:View.GONE}"
+        app:layout_constraintTop_toTopOf="parent"
+        app:errorMessage="@{viewModel.errorMessage}"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
