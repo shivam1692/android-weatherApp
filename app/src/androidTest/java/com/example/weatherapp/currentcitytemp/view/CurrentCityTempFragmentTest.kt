@@ -20,6 +20,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 
@@ -33,10 +34,6 @@ class CurrentCityTempFragmentTest {
     var permissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION,android.Manifest.permission.ACCESS_COARSE_LOCATION)
 
 
-    private val context : Context by lazy {
-        InstrumentationRegistry.getInstrumentation().targetContext
-    }
-
     @Test
     fun checkBackHandling_FromCurrentCityToHome(){
         val screnario = ActivityScenario.launch(MainActivity::class.java)
@@ -49,8 +46,11 @@ class CurrentCityTempFragmentTest {
     @Test
     fun forecastRecyclerView_isVisible(){
         val scenario = launchFragmentInContainer<CurrentCityTempFragment>(themeResId = R.style.AppTheme)
-        onView(withId(R.id.rvDaysForecast))
-            .check(hasItemCount(1))
+        scenario.recreate()
+            onView(withId(R.id.rvDaysForecast))
+                .check(hasItemCount(1))
+
+
     }
 
 

@@ -14,6 +14,7 @@ class ThreeHourForecastAdapter:RecyclerView.Adapter<ThreeHourForecastAdapter.Vie
     private  var list:List<ThreeHoursForecastModel>?=null
     override fun setData(items: List<ThreeHoursForecastModel>) {
         this.list =items
+        notifyDataSetChanged()
     }
 
 

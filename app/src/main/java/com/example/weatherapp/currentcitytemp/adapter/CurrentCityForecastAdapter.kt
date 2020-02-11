@@ -12,7 +12,6 @@ class CurrentCityForecastAdapter:RecyclerView.Adapter<CurrentCityForecastAdapter
     private var list:List<ForecastModel>?=null
     override fun setData(items: List<ForecastModel>) {
         this.list =items
-        notifyDataSetChanged()
     }
 
 
