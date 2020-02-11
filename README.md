@@ -8,6 +8,7 @@ A simple Android Weather App is developed in MVVM Architecture to showcase Archi
 * LiveData
 * Data Binding
 * Handling Lifecycles
+
 **Other Components**
 * Navigation Component
 * Dagger 2
