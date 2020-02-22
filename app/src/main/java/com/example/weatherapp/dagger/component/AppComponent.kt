@@ -11,6 +11,10 @@ import dagger.android.support.AndroidSupportInjectionModule
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
+/**
+ * App level dagger component.
+ *
+ */
 @Singleton
 @Component(modules = [RetrofitModule::class,RepositoryModule::class, AndroidSupportInjectionModule::class, AndroidInjectionModule::class])
 interface AppComponent {

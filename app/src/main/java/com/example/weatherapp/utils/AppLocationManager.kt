@@ -49,6 +49,11 @@ class AppLocationManager private constructor(private var context: Activity): Loc
         }
     }
 
+    /**
+     * Check if play services available on device
+     *
+     * @return true if yes, false otherwise
+     */
     private fun checkPlayServices(): Boolean {
         val resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context)
         if (resultCode != ConnectionResult.SUCCESS) {

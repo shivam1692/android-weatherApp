@@ -10,7 +10,13 @@ import javax.inject.Inject
 
 class Repository @Inject constructor(val retrofit:Retrofit?):WeatherRepo {
 
-
+    /**
+     * Fetch the weather forecast for the current location
+     *
+     * @param lat
+     * @param lon
+     * @return [LiveData] of [CurrentCityTempResponseModel]
+     */
    override fun getWeatherForecastForCurrentCity(lat:String?, lon:String?):LiveData<DataWrapper<CurrentCityTempResponseModel>>{
         val liveData = MutableLiveData<DataWrapper<CurrentCityTempResponseModel>>()
         val dataWrapper = DataWrapper<CurrentCityTempResponseModel>()
@@ -33,6 +39,12 @@ class Repository @Inject constructor(val retrofit:Retrofit?):WeatherRepo {
     }
 
 
+    /**
+     * Fetch the current temperature for the city
+     *
+     * @param cityName
+     * @return [LiveData] of [TemperatureModel]
+     */
    override fun getCurrentTemperatureForCity(cityName:String):LiveData<DataWrapper<TemperatureModel>>{
         val liveData = MutableLiveData<DataWrapper<TemperatureModel>>()
         val dataWrapper = DataWrapper<TemperatureModel>()

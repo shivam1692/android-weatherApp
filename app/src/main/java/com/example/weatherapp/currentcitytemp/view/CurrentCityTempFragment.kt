@@ -86,6 +86,10 @@ class CurrentCityTempFragment : Fragment() {
             viewModel.getWeatherForecast(lat,lon)
     }
 
+    /**
+     * Check the permission required to fetch location updates.
+     *
+     */
     private fun checkLocationPermission(){
         if(ContextCompat.checkSelfPermission(context!!, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
                 requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),AppConstants.LOCATION_PERMISSION_REQUEST_CODE)
@@ -95,7 +99,11 @@ class CurrentCityTempFragment : Fragment() {
         }
     }
 
-
+    /**
+     * Subscribe to the location updates. On current location fetched an API will be called
+     * to fetch weather data.
+     *
+     */
     private fun getLocationUpdates(){
         var subscriberId=0
         val locationManager = AppLocationManager.getInstance(activity!!)

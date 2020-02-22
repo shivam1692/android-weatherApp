@@ -51,6 +51,9 @@ class CurrentTempViewModel(application: Application, private val repository: Wea
 
     /**
     * This method is to validate the entered text and update the UI with the error
+     *
+     * @param cities
+     * @return error text
     * */
     fun validate(cities: String): String {
         return if (cities.isEmpty()) {
@@ -86,6 +89,8 @@ class CurrentTempViewModel(application: Application, private val repository: Wea
 
     /**
     * This method is responsible to make api call to get current temperate of entered cities.
+     *
+     * @return [LiveData] to update the view
     * */
     fun getCurrentTemperature(): LiveData<Int> {
         val temperatureList = ArrayList<CurrentTemperatureModel>()

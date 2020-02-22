@@ -11,6 +11,11 @@ import retrofit2.Response
 import java.io.IOException
 import java.net.SocketTimeoutException
 
+/**
+ * Custom callback for Retrofit response
+ *
+ * @property callback
+ */
 class RetrofitCallback<T>(val callback: CustomCallback<T>) : Callback<T> {
 
 

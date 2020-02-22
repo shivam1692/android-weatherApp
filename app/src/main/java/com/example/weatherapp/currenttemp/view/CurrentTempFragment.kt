@@ -83,6 +83,10 @@ class CurrentTempFragment : Fragment() {
         }
     }
 
+    /**
+     * Validate the data entered for search. Hide soft keyboard once the user tap on search
+     *
+     */
    private fun validateView(){
        with(binding){
            inputLayout.error = this@CurrentTempFragment.viewModel.validate(edtCity.text.toString()).also {

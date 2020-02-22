@@ -40,13 +40,16 @@ class CurrentCityTempViewModel(application: Application, private val repository:
         get() = _weatherForecastList
 
 
+
+
     /**
-    *
-    * This functions call the api to get the weather Forecast for current city on
-    * behalf of latitude and longitude
-    *
-    *
-    * */
+     *This functions call the api to get the weather Forecast for current city on
+     * behalf of latitude and longitude
+     *
+     * @param lat
+     * @param lon
+     * @return [LiveData] to provide updates for view
+     */
     fun getWeatherForecast(lat: String?, lon: String?):LiveData<Int> {
         _viewToBeViewed.apply {
             postValue(AppConstants.SHOW_LOADING)
@@ -76,9 +79,11 @@ class CurrentCityTempViewModel(application: Application, private val repository:
 
 
     /**
-    *
-    * This method parse the response and put all the data into the list and notifies the observer
-    * */
+     * This method parse the response and put all the data into the list and notifies the observer
+     *
+     * @param list
+     * @param city
+     */
     private fun parseForecastResponseModel(list: ArrayList<TemperatureModel>, city: String) {
         val forecastList = ArrayList<ForecastModel>()
         var threeHoursForecastList = ArrayList<ThreeHoursForecastModel>()
@@ -125,9 +130,13 @@ class CurrentCityTempViewModel(application: Application, private val repository:
         return ForecastModel(getDateOfForecast(currentDate),city,threeHoursForecastList)
     }
 
+
     /**
-    * Method is to return Today and for Tomorrow instead of date for today and tomorrow and for rest it returns date
-    * */
+     * Method is to return Today and for Tomorrow instead of date for today and tomorrow and for rest it returns date
+     *
+     * @param date
+     * @return formatted date
+     */
     private fun getDateOfForecast(date: String): String {
         return when {
             Utils.isToday(date, Utils.DATE_FORMAT_EEEE_DD_MMM_YYYY) -> {

@@ -34,6 +34,13 @@ object  Utils {
     }
 
 
+    /**
+     * Check if date is of tomorrow
+     *
+     * @param date
+     * @param sourceFormat
+     * @return true , if yes
+     */
   fun isTomorrow(date:String?,sourceFormat:String):Boolean{
       val sourceDateFormat = SimpleDateFormat(sourceFormat,Locale.getDefault())
       val sourceDate = sourceDateFormat.parse(date)
@@ -44,6 +51,13 @@ object  Utils {
       return  (soureCalendar.get(Calendar.DATE)==tomorrowDate.get(Calendar.DATE))
   }
 
+    /**
+     * Check if date is of today
+     *
+     * @param date
+     * @param sourceFormat
+     * @return true , if yes
+     */
     fun isToday(date:String?,sourceFormat:String):Boolean{
         val sourceDateFormat = SimpleDateFormat(sourceFormat,Locale.getDefault())
         val sourceDate = sourceDateFormat.parse(date)
