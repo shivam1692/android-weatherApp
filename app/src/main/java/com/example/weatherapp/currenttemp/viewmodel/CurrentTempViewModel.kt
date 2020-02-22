@@ -1,10 +1,7 @@
 package com.example.weatherapp.currenttemp.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.example.weatherapp.R
 import com.example.weatherapp.base.WeatherRepo
 import com.example.weatherapp.currentcitytemp.model.TemperatureModel
@@ -12,6 +9,10 @@ import com.example.weatherapp.currenttemp.model.CurrentTemperatureModel
 import com.example.weatherapp.utils.AppConstants
 import com.example.weatherapp.utils.Utils
 import com.example.weatherapp.utils.showToast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.concurrent.CountDownLatch
 
 class CurrentTempViewModel(application: Application, private val repository: WeatherRepo) :
     AndroidViewModel(application) {
@@ -88,36 +89,39 @@ class CurrentTempViewModel(application: Application, private val repository: Wea
     * */
     fun getCurrentTemperature(): LiveData<Int> {
         val temperatureList = ArrayList<CurrentTemperatureModel>()
-        var count = 0
+        val countDownLatch = CountDownLatch(citiesListSent.size)
         _viewToBeShown.postValue(AppConstants.SHOW_LOADING)
         citiesListReceived.clear()
         citiesListSent.forEach {
             _viewToBeShown.addSource(repository.getCurrentTemperatureForCity(it)) { dataWrapper ->
-                count++
+
                 if (dataWrapper.data != null) {
                     parseTemperatureModel(dataWrapper.data, temperatureList)
+                } else if(countDownLatch.count==1L && temperatureList.size == 0) {
+                    dataWrapper?.errorModel?.message?.showToast(getApplication())
                 }
+                countDownLatch.countDown()
+            }
 
-                if (count == citiesListSent.size) {
-                    _temperatureList.postValue(temperatureList)
-                    when {
-                        citiesListSent.size == temperatureList.size -> {
-                            _viewToBeShown.postValue(AppConstants.SHOW_DATA)
-                        }
-                        temperatureList.size > 0 -> {
-                            _viewToBeShown.postValue(AppConstants.SHOW_DATA)
-                            showNotFoundErrorForCities()
-                        }
-                        else -> {
-                            dataWrapper?.errorModel?.message?.showToast(getApplication())
-                            _viewToBeShown.postValue(AppConstants.SHOW_INFO)
-
-                        }
-                    }
+        }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                countDownLatch.await()
+            }
+            _temperatureList.postValue(temperatureList)
+            when {
+                citiesListSent.size == temperatureList.size -> {
+                    _viewToBeShown.postValue(AppConstants.SHOW_DATA)
+                }
+                temperatureList.size > 0 -> {
+                    _viewToBeShown.postValue(AppConstants.SHOW_DATA)
+                    showNotFoundErrorForCities()
+                }
+                else -> {
+                    _viewToBeShown.postValue(AppConstants.SHOW_INFO)
 
                 }
             }
-
         }
         return _viewToBeShown
     }

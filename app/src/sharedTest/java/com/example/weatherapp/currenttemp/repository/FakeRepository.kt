@@ -15,6 +15,7 @@ class FakeRepository @Inject constructor() : WeatherRepo {
         val dataWrapper = DataWrapper<CurrentCityTempResponseModel>()
         if(lat?.equals("10.23456") == true && lon?.equals("10.9346")==true){
             dataWrapper.data = CurrentCityTempResponseModel("200",ArrayList(), CityModel(""))
+            liveData.postValue(dataWrapper)
         }else if(lat?.equals("10.23457") == true && lon?.equals("10.9347")==true){
 
             dataWrapper.errorModel = ErrorResponseModel("404","City not found")
