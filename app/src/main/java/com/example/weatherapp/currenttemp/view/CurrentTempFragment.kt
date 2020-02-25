@@ -20,6 +20,7 @@ import com.example.weatherapp.currenttemp.adapter.CurrentTempAdapter
 import com.example.weatherapp.currenttemp.viewmodel.CurrentTempViewModel
 import com.example.weatherapp.databinding.CurrentTempFragmentBinding
 import com.example.weatherapp.network.ApiClient
+import com.example.weatherapp.utils.AppConstants
 import com.example.weatherapp.utils.hideKeyboard
 import kotlinx.android.synthetic.main.fragment_home.*
 import javax.inject.Inject
@@ -92,6 +93,7 @@ class CurrentTempFragment : Fragment() {
            inputLayout.error = this@CurrentTempFragment.viewModel.validate(edtCity.text.toString()).also {
                if(it.isEmpty()){
                    ivSearchIcon.hideKeyboard()
+                   this@CurrentTempFragment.viewModel.showLoading()
                    this@CurrentTempFragment.viewModel.getCurrentTemperature()
 
                }

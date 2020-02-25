@@ -95,7 +95,6 @@ class CurrentTempViewModel(application: Application, private val repository: Wea
     fun getCurrentTemperature(): LiveData<Int> {
         val temperatureList = ArrayList<CurrentTemperatureModel>()
         val countDownLatch = CountDownLatch(citiesListSent.size)
-        _viewToBeShown.postValue(AppConstants.SHOW_LOADING)
         citiesListReceived.clear()
         citiesListSent.forEach {
             _viewToBeShown.addSource(repository.getCurrentTemperatureForCity(it)) { dataWrapper ->
@@ -110,24 +109,25 @@ class CurrentTempViewModel(application: Application, private val repository: Wea
 
         }
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
                 countDownLatch.await()
-            }
-            _temperatureList.postValue(temperatureList)
-            when {
-                citiesListSent.size == temperatureList.size -> {
-                    _viewToBeShown.postValue(AppConstants.SHOW_DATA)
-                }
-                temperatureList.size > 0 -> {
-                    _viewToBeShown.postValue(AppConstants.SHOW_DATA)
-                    showNotFoundErrorForCities()
-                }
-                else -> {
-                    _viewToBeShown.postValue(AppConstants.SHOW_INFO)
+                    _temperatureList.postValue(temperatureList)
+                    when {
+                        citiesListSent.size == temperatureList.size -> {
+                            _viewToBeShown.postValue(AppConstants.SHOW_DATA)
+                        }
+                        temperatureList.size > 0 -> {
+                            _viewToBeShown.postValue(AppConstants.SHOW_DATA)
+                            showNotFoundErrorForCities()
+                        }
+                        else -> {
+                            _viewToBeShown.postValue(AppConstants.SHOW_INFO)
 
-                }
+                        }
+                    }
             }
         }
+
         return _viewToBeShown
     }
 
@@ -147,7 +147,6 @@ class CurrentTempViewModel(application: Application, private val repository: Wea
                 }
             }
         }
-
         builder.append(getApplication<Application>().getString(R.string.city_not_found))
         builder.toString().showToast(getApplication())
     }
@@ -170,6 +169,10 @@ class CurrentTempViewModel(application: Application, private val repository: Wea
                 )
             )
         }
+    }
+
+    fun showLoading(){
+        _viewToBeShown.postValue(AppConstants.SHOW_LOADING)
     }
 
 

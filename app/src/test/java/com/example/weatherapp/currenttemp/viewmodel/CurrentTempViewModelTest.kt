@@ -1,6 +1,7 @@
 package com.example.weatherapp.currenttemp.viewmodel
 
 import android.app.Application
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.weatherapp.R
@@ -8,7 +9,9 @@ import com.example.weatherapp.currenttemp.repository.FakeRepository
 import com.example.weatherapp.getOrAwaitValue
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -16,6 +19,10 @@ class CurrentTempViewModelTest {
 
     private lateinit var viewModel: CurrentTempViewModel
     private lateinit var application: Application
+
+
+    @get:Rule
+    var rule: TestRule = InstantTaskExecutorRule()
 
     @Before
     fun setupViewModel() {
@@ -44,13 +51,10 @@ class CurrentTempViewModelTest {
 
     @Test
     fun validateAndCallApi_citiesListValidations() {
-        viewModel.validate("Mumbai,Delhi,Bangkok,abc,qwe,qwer,qwer").also {
-            if (it.isEmpty()) {
-
-                viewModel.getCurrentTemperature().getOrAwaitValue {
-                    assertEquals(3, viewModel.temperatureList.value?.size ?: 0)
-                }
-            }
+        viewModel.validate("Mumbai,Delhi,Bangkok").also {
+            viewModel.getCurrentTemperature().getOrAwaitValue()
+            assertEquals(3, viewModel.temperatureList.value?.size ?: 0)
+//                    }
 
 
         }
@@ -61,26 +65,21 @@ class CurrentTempViewModelTest {
     @Test
     fun validateAndCallApi_citiesListMaxListValidations() {
         viewModel.validate("Mumbai,Delhi,Bangkok,Gurgaon,New York,Khatauli,Noida").also {
-            if (it.isEmpty()) {
 
-                viewModel.getCurrentTemperature().getOrAwaitValue {
-                    assertEquals(7, viewModel.temperatureList.value?.size ?: 0)
-                }
+            viewModel.getCurrentTemperature().getOrAwaitValue()
+            assertEquals(7, viewModel.temperatureList.value?.size ?: 0)
 
 
-            }
         }
     }
 
     @Test
     fun validateAndCallApi_inValidCitiesValidation() {
         viewModel.validate("abcd,efgh,hij,klm").also {
-            if (it.isEmpty()) {
 
-                viewModel.getCurrentTemperature().getOrAwaitValue {
-                    assertEquals(0, viewModel.temperatureList.value?.size ?: 0)
-                }
-            }
+            viewModel.getCurrentTemperature().getOrAwaitValue()
+            assertEquals(0, viewModel.temperatureList.value?.size ?: 0)
+
 
         }
 

@@ -12,6 +12,7 @@ import com.example.weatherapp.currentcitytemp.model.TemperatureModel
 import com.example.weatherapp.currentcitytemp.model.ThreeHoursForecastModel
 import com.example.weatherapp.utils.AppConstants
 import com.example.weatherapp.utils.Utils
+import java.util.logging.Handler
 
 class CurrentCityTempViewModel(application: Application, private val repository: WeatherRepo) :
     AndroidViewModel(application) {
@@ -65,8 +66,9 @@ class CurrentCityTempViewModel(application: Application, private val repository:
 
                     }
                     else -> {
-                        parseForecastResponseModel(it.data!!.list, it.data?.cityModel?.name ?: "")
-                        postValue(AppConstants.SHOW_DATA)
+                            parseForecastResponseModel(it.data!!.list, it.data?.cityModel?.name ?: "")
+                            postValue(AppConstants.SHOW_DATA)
+
                     }
                 }
 

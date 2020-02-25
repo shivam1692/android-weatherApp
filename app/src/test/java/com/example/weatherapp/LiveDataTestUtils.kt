@@ -10,12 +10,12 @@ import java.util.concurrent.TimeoutException
 
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
 fun <T> LiveData<T>.getOrAwaitValue(
-    time: Long = 2,
+    time: Long = 30,
     timeUnit: TimeUnit = TimeUnit.SECONDS,
-    afterObserve: (data:T) -> Unit = {}
+    afterObserve: () -> Unit = {}
 ): T {
     var data: T? = null
-    val latch = CountDownLatch(5)
+    val latch = CountDownLatch(1)
     val observer = Observer<T> { o ->
         data = o
         latch.countDown()
@@ -25,10 +25,8 @@ fun <T> LiveData<T>.getOrAwaitValue(
     try {
         // Don't wait indefinitely if the LiveData is not set.
         if (!latch.await(time, timeUnit)) {
-            removeObserver(observer)
-            afterObserve.invoke(data as T)
-        } else{
-            afterObserve.invoke(data as T)
+            afterObserve.invoke()
+            throw TimeoutException("LiveData value was never set.")
         }
 
     } finally {
